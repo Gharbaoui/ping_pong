@@ -1,0 +1,46 @@
+
+
+2 - Edit user's profile ( Upload avatar )
+3 - Integrate 42 oauth
+
+npm remove @vue/cli-plugin-eslint
+--------------------------
+			IMPORTANT 
+--------------------------
+- Change all sessionId ( or user's session data )  to req.user.id
+- users.service.ts: leaveRoom() + joinRoom() ===> make new JwT that includes the new joinedRooms[] data
+
+--------------------------
+--------------------------
+
+- socketio frontend code : 
+	- /rooms (rooms list because we use socketIO to join and to leave a room)
+	-/rooms/:roomId (for rooms messages socketIO)
+	-/messages/:userId (form private messages socketIO)
+
+--------------------------
+
+0 - // TODO : baned list : should include ids of all banned users of this room + muted list of this room that expired (created + banned.duration > date.now())
+
+- access private room ( with password, save in user session )
+	: join room ===> append it to rooms[roomId1, roomId2, ...] and store it in jwt token
+	: leave a room (button) ===> remove the room id from rooms param that is stored in jwt token
+	
+2 - socketio
+--------------------------
+
+
+- If the user is blocked then don't show it's messages in both private messages + rooms
+	- get direct messages : check if the user is blocked : if yes then return an empty array
+	- get room messages :
+						if the user is banned or muted from the Roo ===> then filter his missages (remove them from the results)
+						if "I" blocked the user then filter his messages (remove them from the results)
+
+----------
+
+
+2 - encrypt room password before saving it, and don't return it to clients when returning rooms data
+
+3 - auth (jwt)
+4 - register a user ( unique nickName, upload image )
+
